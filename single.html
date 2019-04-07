@@ -29,6 +29,13 @@
           [3.2, 4.6, 3.8, 2.7] // Round 2
       ];
 
+      var med_data = [
+          [3, 3.5, 2.5, 3.5, 3],
+          [3, 3.5, 3, 2.5]
+      ];
+
+      var source_data = avg_data;
+
       function buildSelectArray(prefix, length) {
           var selected = [];
           for (i = 0; i < length; i++) {
@@ -48,6 +55,11 @@
           }
           drawChart();
       }
+      function toggleMetric(control) {
+          var data = [avg_data, med_data];
+          source_data = data[control.selectedIndex];
+          drawChart();
+      }
       // Callback that creates and populates a data table,
       // instantiates the column chart, passes in the data and
       // draws it.
@@ -64,7 +76,7 @@
                 continue;
             }
             var row = [criteria_names[selected_round][criterion]]
-            row.push(avg_data[selected_round][criterion]);
+            row.push(source_data[selected_round][criterion]);
             rows.push(row);
         }
         data.addRows(rows);
@@ -92,7 +104,7 @@
                             <td>
                                     <div><label>Round:</label></div>
                                     <div><select id="round_selector" onchange="toggleRound(this);">
-                                        <option>Round 1</option>
+                                        <option selected="true">Round 1</option>
                                         <option>Round 2</option>
                                     </select></div>
                               
@@ -112,7 +124,14 @@
                                             <div><label><input id="round_1_criterion_2_selector" type="checkbox" checked="true" onclick="drawChart();"/>Criterion 8</label></div>
                                             <div><label><input id="round_1_criterion_3_selector" type="checkbox" checked="true" onclick="drawChart();"/>Criterion 9</label></div>
                                     </div>
-                                    </td>
+                            </td>
+                            <td>
+                                <div><label>Metric:</label></div>
+                                <div><select id="metric_selector" onchange="toggleMetric(this);">
+                                    <option>Mean</option>
+                                    <option>Median</option>
+                                </select></div>
+                            </td>
                         </tr>
                     </table>
                     </div>
